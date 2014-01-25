@@ -31,7 +31,10 @@ class ProfilerMiddleware(object):
 class StatProfMiddleware(object):
 
     def process_request(self, request):
-        statprof.reset(getattr(settings, 'LIVEPROFILER_STATPROF_FREQUENCY', 100))
+        try:
+            statprof.reset(getattr(settings, 'LIVEPROFILER_STATPROF_FREQUENCY', 100))
+        except:
+            pass
         statprof.start()
     
     def process_response(self, request, response):

@@ -8,7 +8,6 @@ from django.utils import simplejson
 
 from aggregate.client import get_client
 
-@user_passes_test(lambda u:u.is_superuser)
 def global_stats(request):
     stats = get_client().select(group_by=['query'], where={'type':'sql'})
     for s in stats:
@@ -17,7 +16,6 @@ def global_stats(request):
                               {'queries' : stats},
                               context_instance=RequestContext(request))
 
-@user_passes_test(lambda u:u.is_superuser)
 def stats_by_view(request):
     stats = get_client().select(group_by=['view','query'], where={'type':'sql'})
     grouped = {}
@@ -45,7 +43,6 @@ def stats_by_view(request):
                                'stats' :simplejson.dumps(stats)},
                               context_instance=RequestContext(request))
 
-@user_passes_test(lambda u:u.is_superuser)
 def reset(request):
     next = request.GET.get('next') or request.POST.get('next') or request.META.get('HTTP_REFERER') or reverse('profiler_global_stats')
     if request.method == 'POST':
@@ -57,7 +54,6 @@ def reset(request):
 
 
 
-@user_passes_test(lambda u:u.is_superuser)
 def python_stats(request):
     stats = get_client().select(group_by=['file','lineno'], where={'type':'python'})
     return render_to_response('profiler/code.html',
