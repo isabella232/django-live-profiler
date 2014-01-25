@@ -21,7 +21,7 @@ Usage
 
 In order to start gathering data you need to start the aggregation server::
 
-  $ aggregated --host 127.0.0.1 --port 5556
+  $ aggregated --host 0.0.0.0 --port 5556
 
 
 Visit http://yoursite.com/profiler/ for results.
